@@ -12,13 +12,11 @@ export default function Navbar() {
   
   // Ticker Data
   const offersTitle = useStore(state => state.offersTitle);
-  const liveStreams = useStore(state => state.liveStreams).filter(s => s.isActive);
   const news = useStore(state => state.news).filter(n => new Date(n.date) <= new Date());
 
   const tickerItems = [];
   if (siteSettings.announcementEnabled && siteSettings.announcementText) tickerItems.push(siteSettings.announcementText);
   if (offersTitle) tickerItems.push(`🔥 ${offersTitle}`);
-  if (liveStreams.length > 0) tickerItems.push(`🔴 LIVE NOW: ${liveStreams[0].title}`);
   if (news.length > 0) tickerItems.push(`📢 ${news[0].title}`);
 
   return (
@@ -58,12 +56,6 @@ export default function Navbar() {
           <div className="hidden sm:flex sm:items-center sm:space-x-8">
             <Link to="/" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Home</Link>
             <Link to="/shop" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Shop</Link>
-            <Link to="/live" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium flex items-center gap-1.5">
-              Live <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-            </Link>
-            <Link to="/bin-generator" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium flex items-center gap-1">
-              <span>💳 BIN Generator</span>
-            </Link>
             <Link to="/about" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">About</Link>
             <Link to="/contact" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Contact</Link>
             <Link to="/admin" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 font-bold ml-2">Admin Panel</Link>
@@ -102,13 +94,6 @@ export default function Navbar() {
           <div className="px-3 pt-2 pb-3 space-y-1">
             <Link to="/" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Home</Link>
             <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Shop</Link>
-            <Link to="/live" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md flex justify-between items-center">
-              Live
-              <span className="flex items-center gap-1.5 text-xs text-red-500 font-bold">
-                <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span> ON AIR
-              </span>
-            </Link>
-            <Link to="/bin-generator" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">💳 BIN Generator & Card Checker</Link>
             <Link to="/about" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">About</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Contact</Link>
             <Link to="/account" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">My Account</Link>
