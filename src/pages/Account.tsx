@@ -46,7 +46,7 @@ function OrderProgressBar({ status }: { status: Order['status'] }) {
         {/* Progress Line */}
         <div 
           className="absolute top-5 left-8 h-1 bg-gradient-to-r from-orange-500 to-orange-600 -translate-y-1/2 rounded-full transition-all duration-500"
-          style={{ width: `calc(${progressPercent}% * 0.82)` }}
+          style={{ width: `calc(KES {progressPercent}% * 0.82)` }}
         />
 
         {/* Steps */}
@@ -59,17 +59,17 @@ function OrderProgressBar({ status }: { status: Order['status'] }) {
             return (
               <div key={step.key} className="flex flex-col items-center text-center max-w-[80px] sm:max-w-[100px]">
                 <div 
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 KES {
                     isCompleted 
                       ? 'bg-orange-600 border-orange-600 text-white shadow-md shadow-orange-600/20' 
                       : 'bg-white border-amber-900/20 text-amber-900/30'
-                  } ${isCurrent ? 'ring-4 ring-orange-500/20 scale-105' : ''}`}
+                  } KES {isCurrent ? 'ring-4 ring-orange-500/20 scale-105' : ''}`}
                 >
                   <Icon size={18} className={isCurrent ? 'animate-pulse' : ''} />
                 </div>
                 
                 <div className="mt-2">
-                  <div className={`text-[11px] sm:text-xs font-bold leading-tight ${isCompleted ? 'text-amber-950' : 'text-amber-900/40'}`}>
+                  <div className={`text-[11px] sm:text-xs font-bold leading-tight KES {isCompleted ? 'text-amber-950' : 'text-amber-900/40'}`}>
                     {step.label}
                   </div>
                   <div className="text-[9px] sm:text-[10px] text-amber-900/50 hidden sm:block mt-0.5 leading-snug">
@@ -109,8 +109,8 @@ export default function Account() {
     
     // Add Customer Info
     doc.setFontSize(12);
-    doc.text(`Customer Name: ${currentUser.name}`, 14, 32);
-    doc.text(`Email: ${currentUser.email}`, 14, 38);
+    doc.text(`Customer Name: KES {currentUser.name}`, 14, 32);
+    doc.text(`Email: KES {currentUser.email}`, 14, 38);
     
     // Table
     const tableData = userOrders.map(order => [
@@ -118,7 +118,7 @@ export default function Account() {
       new Date(order.date).toLocaleDateString(),
       order.items.toString(),
       order.status,
-      `$${order.total.toFixed(2)}`
+      `KES KES {order.total.toFixed(2)}`
     ]);
 
     autoTable(doc, {
@@ -127,7 +127,7 @@ export default function Account() {
       body: tableData,
     });
     
-    doc.save(`${currentUser.name.replace(/\s+/g, '_')}_Order_History.pdf`);
+    doc.save(`KES {currentUser.name.replace(/\s+/g, '_')}_Order_History.pdf`);
   };
 
   if (!currentUser) return <div>Please log in</div>;
@@ -161,7 +161,7 @@ export default function Account() {
                     <button
                       key={tab.id}
                       onClick={() => setSearchParams({ tab: tab.id })}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${
+                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors KES {
                         isActive ? 'bg-orange-50 text-orange-600 font-bold' : 'text-amber-950 hover:bg-amber-50'
                       }`}
                     >
@@ -210,17 +210,17 @@ export default function Account() {
                           <div className="font-bold text-amber-950">{new Date(order.date).toLocaleDateString()}</div>
                         </div>
                         <div className="mt-4 md:mt-0 text-left md:text-right">
-                          <span className={`inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-2 ${
+                          <span className={`inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-2 KES {
                             order.status === 'delivered' ? 'bg-green-100 text-green-700' :
                             order.status === 'shipped' || order.status === 'out_for_delivery' ? 'bg-blue-100 text-blue-700' :
                             'bg-orange-100 text-orange-700'
                           }`}>
                             {order.status.replace(/_/g, ' ')}
                           </span>
-                          <div className="font-bold text-amber-950">${order.total.toFixed(2)}</div>
+                          <div className="font-bold text-amber-950">KES {order.total.toFixed(2)}</div>
                           {order.discountApplied && order.discountApplied > 0 && (
                             <div className="text-xs text-green-600 font-medium">
-                              Saved ${order.discountApplied.toFixed(2)} ({order.voucherCode})
+                              Saved KES {order.discountApplied.toFixed(2)} ({order.voucherCode})
                             </div>
                           )}
                         </div>
@@ -274,9 +274,9 @@ export default function Account() {
                 <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Users size={32} />
                 </div>
-                <h2 className="text-2xl font-bold text-amber-950 mb-4">Give $10, Get $10</h2>
+                <h2 className="text-2xl font-bold text-amber-950 mb-4">Give KES 10, Get KES 10</h2>
                 <p className="text-amber-900/80 mb-8 max-w-md mx-auto leading-relaxed">
-                  Share the taste of East Africa with your friends. Give them $10 off their first order, and get $10 in store credit when they purchase.
+                  Share the taste of East Africa with your friends. Give them KES 10 off their first order, and get KES 10 in store credit when they purchase.
                 </p>
                 <div className="max-w-sm mx-auto bg-amber-50 p-4 rounded-xl border border-amber-900/20 mb-8 flex justify-between items-center">
                   <span className="font-mono text-amber-950 font-bold">EASTAFRICA10</span>
