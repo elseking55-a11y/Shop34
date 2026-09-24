@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Loader2, Lock, Smartphone, CreditCard } from 'lucide-react';
 import { useStore } from '../store';
@@ -16,6 +16,21 @@ export default function Checkout() {
   const [whatsapp,setWhatsapp]=useState('');
   const [error,setError]=useState('');
   const [processing,setProcessing]=useState(false);
+  const [customerUser,setCustomerUser]=useState<any>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('shop34_customer_user');
+      if (saved) {
+        const user = JSON.parse(saved);
+        setCustomerUser(user);
+        setEmail(user.email || '');
+        const parts = String(user.name || '').trim().split(/\s+/);
+        setFirstName(parts.shift() || '');
+        setLastName(parts.join(' '));
+      }
+    } catch {}
+  }, []);
 
   const subtotal=cartTotal();
   const discount=appliedVoucher
@@ -38,6 +53,7 @@ export default function Checkout() {
           name:(firstName+' '+lastName).trim(),
           email,address,phone,deliveryMethod:'email',
           whatsappNumber:whatsapp || undefined,
+          customerToken: localStorage.getItem('shop34_customer_token') || undefined,
           items:cart.map(item=>({productId:item.product.id,quantity:item.quantity}))
         })
       });
@@ -59,7 +75,7 @@ export default function Checkout() {
       <form onSubmit={pay} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <section className="bg-white rounded-3xl border border-amber-900/10 p-6">
-            <h2 className="font-bold text-xl text-amber-950 mb-5">Customer & Delivery Details</h2>
+            <div className="flex items-center justify-between gap-3 mb-5"><h2 className="font-bold text-xl text-amber-950">Customer & Delivery Details</h2>{customerUser ? <span className="text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full">Signed in</span> : <Link to="/auth?mode=signin" className="text-sm font-bold text-orange-600">Sign in / Sign up</Link>}</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input required value={firstName} onChange={e=>setFirstName(e.target.value)} placeholder="First name" className="p-3 rounded-xl border border-amber-900/20"/>
               <input required value={lastName} onChange={e=>setLastName(e.target.value)} placeholder="Last name" className="p-3 rounded-xl border border-amber-900/20"/>
@@ -89,7 +105,7 @@ export default function Checkout() {
           <button disabled={processing} className="w-full mt-6 bg-amber-950 hover:bg-amber-900 disabled:opacity-60 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2">
             {processing?<><Loader2 className="animate-spin" size={18}/> Starting secure payment…</>:<>Pay \KES {total.toFixed(2)}</>}
           </button>
-          <p className="text-xs text-center text-amber-900/50 mt-3">No order is marked paid until the payment provider confirms it.</p>
+          <p className="text-xs text-center text-amber-900/50 mt-3">{customerUser ? "This order will be linked to your customer account." : "You can also checkout as a guest."} No order is marked paid until the payment provider confirms it.</p>
         </aside>
       </form>
     </div>
