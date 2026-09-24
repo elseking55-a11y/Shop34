@@ -43,7 +43,6 @@ export default function Checkout() {
       });
       const data=await response.json();
       if(!response.ok) throw new Error(data.error || 'Unable to start payment.');
-      clearCart();
       window.location.assign(data.authorizationUrl);
     }catch(err){
       setError(err instanceof Error ? err.message : 'Unable to start payment.');
