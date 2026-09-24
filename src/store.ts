@@ -7,6 +7,7 @@ interface StoreState {
   logoutAdmin: () => void;
   loadProducts: () => Promise<void>;
   loadOrders: () => Promise<void>;
+  loadUsers: () => Promise<void>;
   // Theme Toggle
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -163,6 +164,10 @@ export const useStore = create<StoreState>((set, get) => ({
   loadOrders: async () => {
     const response = await fetch(API_URL + '/api/orders', { headers: adminHeaders() });
     if (response.ok) set({ orders: await response.json() });
+  },
+  loadUsers: async () => {
+    const response = await fetch(API_URL + '/api/customers', { headers: adminHeaders() });
+    if (response.ok) set({ users: await response.json() });
   },
   theme: (typeof window !== 'undefined' && localStorage.getItem('theme') as 'light' | 'dark') || 'light',
   toggleTheme: () => {
