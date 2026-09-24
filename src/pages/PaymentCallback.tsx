@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useStore } from '../store';
 import { CheckCircle, Loader2, XCircle } from 'lucide-react';
 
 const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
@@ -7,6 +8,7 @@ const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 export default function PaymentCallback() {
   const [params] = useSearchParams();
   const reference = params.get('reference');
+  const clearCart = useStore(state => state.clearCart);
   const [status,setStatus]=useState<'loading'|'success'|'failed'>('loading');
   const [message,setMessage]=useState('Verifying your payment securely…');
 
@@ -15,7 +17,7 @@ export default function PaymentCallback() {
     fetch(API_URL+'/api/payments/verify/'+encodeURIComponent(reference))
       .then(async r=>{const d=await r.json(); if(!r.ok) throw new Error(d.error || 'Payment verification failed.'); return d;})
       .then(d=>{
-        if(d.status==='success'){setStatus('success');setMessage('Payment confirmed. Your order has been received.');}
+        if(d.status==='success'){clearCart();setStatus('success');setMessage('Payment confirmed. Your order has been received.');}
         else {setStatus('failed');setMessage('The payment was not completed. No paid order was created.');}
       })
       .catch(e=>{setStatus('failed');setMessage(e instanceof Error?e.message:'Payment verification failed.');});
