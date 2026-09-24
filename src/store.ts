@@ -2,6 +2,11 @@ import { create } from 'zustand';
 import { CartItem, Product, Order, User, ContactMessage, NewsItem, ChatMessage, LiveStream, Voucher, EmailCampaign, LiveSettings, LiveComment, SiteSettings, MarketActivityItem, BinAccessCode } from './types';
 
 interface StoreState {
+  adminToken: string | null;
+  loginAdmin: (email: string, password: string) => Promise<boolean>;
+  logoutAdmin: () => void;
+  loadProducts: () => Promise<void>;
+  loadOrders: () => Promise<void>;
   // Theme Toggle
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -136,7 +141,28 @@ const defaultSiteSettings: SiteSettings = {
   workingHours: 'Mon - Fri: 8:00 AM - 6:00 PM (EAT)'
 };
 
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const adminHeaders = () => ({ Authorization: 'Bearer ' + (typeof window !== 'undefined' ? localStorage.getItem('shop34_admin_token') || '' : ''), 'Content-Type': 'application/json' });
+
 export const useStore = create<StoreState>((set, get) => ({
+  adminToken: typeof window !== 'undefined' ? localStorage.getItem('shop34_admin_token') : null,
+  loginAdmin: async (email, password) => {
+    const response = await fetch(API_URL + '/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password}) });
+    if (!response.ok) return false;
+    const data = await response.json();
+    localStorage.setItem('shop34_admin_token', data.token);
+    set({ adminToken: data.token });
+    return true;
+  },
+  logoutAdmin: () => { localStorage.removeItem('shop34_admin_token'); set({ adminToken:null }); },
+  loadProducts: async () => {
+    const response = await fetch(API_URL + '/api/products');
+    if (response.ok) set({ products: await response.json() });
+  },
+  loadOrders: async () => {
+    const response = await fetch(API_URL + '/api/orders', { headers: adminHeaders() });
+    if (response.ok) set({ orders: await response.json() });
+  },
   theme: (typeof window !== 'undefined' && localStorage.getItem('theme') as 'light' | 'dark') || 'light',
   toggleTheme: () => {
     set((state) => {
@@ -307,24 +333,12 @@ export const useStore = create<StoreState>((set, get) => ({
   },
 
   // Admin Actions
-  addProduct: (product) => set((state) => ({
-    products: [{ ...product, id: `p-${Date.now()}` }, ...state.products]
-  })),
-  updateProduct: (product) => set((state) => ({
-    products: state.products.map(p => p.id === product.id ? product : p)
-  })),
-  incrementProductViews: (productId) => set((state) => ({
-    products: state.products.map(p => p.id === productId ? { ...p, views: (p.views || 0) + 1 } : p)
-  })),
-  deleteProduct: (productId) => set((state) => ({
-    products: state.products.filter(p => p.id !== productId)
-  })),
-  updateOrderStatus: (orderId, status) => set((state) => ({
-    orders: state.orders.map(o => o.id === orderId ? { ...o, status } : o)
-  })),
-  deleteOrder: (orderId) => set((state) => ({
-    orders: state.orders.filter(o => o.id !== orderId)
-  })),
+  addProduct: (product) => { fetch(API_URL + '/api/products', { method:'POST', headers:adminHeaders(), body:JSON.stringify(product) }).then(async r => { if(r.ok){ const p=await r.json(); set(state=>({products:[p,...state.products]})); } }); },
+  updateProduct: (product) => { fetch(API_URL + '/api/products/' + product.id, { method:'PUT', headers:adminHeaders(), body:JSON.stringify(product) }).then(async r => { if(r.ok){ const p=await r.json(); set(state=>({products:state.products.map(x=>x.id===p.id?p:x)})); } }); },
+  incrementProductViews: (productId) => set((state) => ({ products: state.products.map(p => p.id === productId ? { ...p, views: (p.views || 0) + 1 } : p) })),
+  deleteProduct: (productId) => { fetch(API_URL + '/api/products/' + productId, { method:'DELETE', headers:adminHeaders() }).then(r=>{ if(r.ok) set(state=>({products:state.products.filter(p=>p.id!==productId)})); }); },
+  updateOrderStatus: (orderId, status) => { fetch(API_URL + '/api/orders/' + orderId + '/status', { method:'PATCH', headers:adminHeaders(), body:JSON.stringify({status}) }).then(r=>{ if(r.ok) set(state=>({orders:state.orders.map(o=>o.id===orderId?{...o,status}:o)})); }); },
+  deleteOrder: (orderId) => { fetch(API_URL + '/api/orders/' + orderId, { method:'DELETE', headers:adminHeaders() }).then(r=>{ if(r.ok) set(state=>({orders:state.orders.filter(o=>o.id!==orderId)})); }); },
   markMessageRead: (messageId) => set((state) => ({
     messages: state.messages.map(m => m.id === messageId ? { ...m, read: true } : m)
   })),
