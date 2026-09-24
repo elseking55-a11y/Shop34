@@ -10,6 +10,7 @@ export default function Live() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [updated, setUpdated] = useState('');
+  const [announcement, setAnnouncement] = useState('');
 
   const load = async () => {
     setLoading(true);
@@ -21,6 +22,7 @@ export default function Live() {
       const settings = settingsRes.ok ? await settingsRes.json() : {};
       const productsData = productsRes.ok ? await productsRes.json() : [];
       const liveNews = Array.isArray(settings.liveNews) ? settings.liveNews : [];
+      setAnnouncement(settings.announcementEnabled ? String(settings.announcementText || '') : '');
       setNews(liveNews.filter((n: NewsItem) => new Date(n.date) <= new Date()).slice(0, 20));
       setProducts(productsData.slice(0, 8));
       setUpdated(new Date().toLocaleTimeString());
@@ -47,6 +49,7 @@ export default function Live() {
       <section className="grid lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-3xl border border-amber-900/10 p-6">
           <h2 className="font-bold text-xl text-amber-950 flex items-center gap-2 mb-5"><Megaphone size={19} className="text-orange-600"/> Live Announcements</h2>
+          {announcement && <div className="mb-4 p-4 rounded-2xl bg-orange-50 border border-orange-200"><p className="text-xs font-black text-orange-600 uppercase">Official live announcement</p><p className="font-bold text-amber-950 mt-1">{announcement}</p></div>}
           {news.length ? <div className="space-y-4">{news.map(n => <article key={n.id} className="p-4 rounded-2xl bg-amber-50 border border-amber-900/10">{n.imageUrl && <img src={n.imageUrl} alt="" className="w-full h-40 object-cover rounded-xl mb-3"/>}<p className="text-xs text-orange-600 font-bold">{new Date(n.date).toLocaleString()}</p><h3 className="font-black text-amber-950 mt-1">{n.title}</h3><p className="text-sm text-amber-900/70 mt-2 whitespace-pre-wrap">{n.content}</p></article>)}</div> : <p className="text-sm text-amber-900/50">No live announcements have been published yet.</p>}
         </div>
         <div className="bg-white rounded-3xl border border-amber-900/10 p-6">
