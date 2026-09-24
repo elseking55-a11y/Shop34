@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "start": "node server.js",
+    "start": "node server-with-auth.js",
     "build:frontend": "vite build"
   },
   "dependencies": {
