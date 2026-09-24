@@ -66,6 +66,14 @@ async function initDb() {
   `);
 
   await pool.query(`
+    CREATE TABLE IF NOT EXISTS site_settings (
+      id INTEGER PRIMARY KEY DEFAULT 1,
+      data JSONB NOT NULL DEFAULT '{}'::jsonb,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id TEXT PRIMARY KEY,
       customer_name TEXT NOT NULL,
@@ -149,6 +157,22 @@ app.post('/api/admin/login', (req, res) => {
       { expiresIn: '12h' }
     ),
   });
+});
+
+app.get('/api/site-settings', requireDb, async (_req, res) => {
+  const { rows } = await pool.query('SELECT data FROM site_settings WHERE id=1');
+  res.json(rows[0]?.data || {});
+});
+
+app.put('/api/site-settings', requireDb, requireAdmin, async (req, res) => {
+  const data = req.body || {};
+  await pool.query(
+    `INSERT INTO site_settings (id,data,updated_at)
+     VALUES (1,$1,NOW())
+     ON CONFLICT (id) DO UPDATE SET data=$1, updated_at=NOW()`,
+    [JSON.stringify(data)]
+  );
+  res.json(data);
 });
 
 app.get('/api/products', requireDb, async (_req, res) => {
