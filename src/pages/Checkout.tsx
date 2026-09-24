@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Loader2, Lock, Smartphone, CreditCard } from 'lucide-react';
 import { useStore } from '../store';
 
-const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/KES /, '');
 
 export default function Checkout() {
   const { cart, cartTotal, appliedVoucher, clearCart } = useStore();
@@ -83,12 +83,12 @@ export default function Checkout() {
         <aside className="bg-white rounded-3xl border border-amber-900/10 p-6 h-fit lg:sticky lg:top-24">
           <h2 className="font-bold text-xl text-amber-950 mb-5">Order Summary</h2>
           <div className="space-y-4 mb-6">
-            {cart.map(item=><div key={item.product.id} className="flex justify-between gap-3 text-sm"><span>{item.product.name} × {item.quantity}</span><b>\${(item.product.price*item.quantity).toFixed(2)}</b></div>)}
+            {cart.map(item=><div key={item.product.id} className="flex justify-between gap-3 text-sm"><span>{item.product.name} × {item.quantity}</span><b>\KES {(item.product.price*item.quantity).toFixed(2)}</b></div>)}
           </div>
-          {discount>0 && <div className="flex justify-between text-green-700 mb-3"><span>Discount</span><span>-\${discount.toFixed(2)}</span></div>}
-          <div className="border-t pt-4 flex justify-between text-lg font-bold text-amber-950"><span>Total</span><span>\${total.toFixed(2)}</span></div>
+          {discount>0 && <div className="flex justify-between text-green-700 mb-3"><span>Discount</span><span>-\KES {discount.toFixed(2)}</span></div>}
+          <div className="border-t pt-4 flex justify-between text-lg font-bold text-amber-950"><span>Total</span><span>\KES {total.toFixed(2)}</span></div>
           <button disabled={processing} className="w-full mt-6 bg-amber-950 hover:bg-amber-900 disabled:opacity-60 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2">
-            {processing?<><Loader2 className="animate-spin" size={18}/> Starting secure payment…</>:<>Pay \${total.toFixed(2)}</>}
+            {processing?<><Loader2 className="animate-spin" size={18}/> Starting secure payment…</>:<>Pay \KES {total.toFixed(2)}</>}
           </button>
           <p className="text-xs text-center text-amber-900/50 mt-3">No order is marked paid until the payment provider confirms it.</p>
         </aside>
