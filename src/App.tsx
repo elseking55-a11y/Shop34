@@ -32,6 +32,8 @@ import PaymentCallback from './pages/PaymentCallback';
 export default function App() {
   const theme = useStore(state => state.theme);
   const loadProducts = useStore(state => state.loadProducts);
+  const loadSiteSettings = useStore(state => state.loadSiteSettings);
+  const siteSettings = useStore(state => state.siteSettings);
 
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
@@ -40,11 +42,12 @@ export default function App() {
 
   useEffect(() => {
     loadProducts().catch(() => {});
+    loadSiteSettings().catch(() => {});
   }, [loadProducts]);
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 font-sans text-amber-900 dark:text-zinc-100 selection:bg-orange-200 transition-colors duration-200">
+      <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 font-sans text-amber-900 dark:text-zinc-100 selection:bg-orange-200 transition-colors duration-200" style={{ "--shop-accent": accent } as React.CSSProperties}>
         <Toast />
         <Routes>
           <Route path="/admin" element={<AdminLayout />}>
