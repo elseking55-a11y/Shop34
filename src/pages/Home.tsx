@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Truck, ShieldCheck, Activity, Cpu, Zap, Tag, Megaphone, Eye, Radio } from 'lucide-react';
+import { ArrowRight, Cpu, Tag, Megaphone } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../store';
 import { motion } from 'motion/react';
@@ -34,23 +34,11 @@ export default function Home() {
             transition={{ duration: siteSettings.animationSpeed === 'fast' ? 0.3 : siteSettings.animationSpeed === 'slow' ? 1.0 : siteSettings.animationSpeed === 'minimal' ? 0.1 : 0.6 }}
             className="max-w-2xl"
           >
-            {/* Live Auto-detection pill in Hero */}
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 flex-wrap">
-              {activeStreams.length > 0 ? (
-                <Link to="/live" className="inline-flex items-center gap-2 bg-red-600/90 text-white text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full backdrop-blur-md border border-red-400/30 animate-pulse hover:bg-red-600 transition-colors">
-                  <Radio size={14} /> LIVE NOW: {activeStreams[0].title}
-                </Link>
-              ) : null}
-              {siteSettings.heroBadge && (
-                <div className="inline-flex items-center gap-2 bg-orange-600/30 text-orange-300 text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-orange-500/30 uppercase tracking-wider">
-                  <Cpu size={14} className="text-orange-400" /> {siteSettings.heroBadge}
-                </div>
-              )}
-              <div className="inline-flex items-center gap-2 bg-white/10 text-amber-200 text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-white/10">
-                <Eye size={14} className="text-orange-400" /> {appViews.toLocaleString()}+ App Views
+            {siteSettings.heroBadge && (
+              <div className="inline-flex items-center gap-2 bg-orange-600/30 text-orange-300 text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-orange-500/30 uppercase tracking-wider mb-5">
+                <Cpu size={14} className="text-orange-400" /> {siteSettings.heroBadge}
               </div>
-            </div>
-
+            )}
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
               {siteSettings.heroTitle || 'Automate Your Trading Edge with Verified EAs'}
             </h1>
