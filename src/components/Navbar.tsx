@@ -1,4 +1,4 @@
-import { ShoppingBag, Menu, Search, X, User, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, Menu, Search, X, User, Sun, Moon, Radio } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store';
@@ -56,6 +56,7 @@ export default function Navbar() {
           <div className="hidden sm:flex sm:items-center sm:space-x-8">
             <Link to="/" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Home</Link>
             <Link to="/shop" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Shop</Link>
+            <Link to="/live" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium flex items-center gap-1"><Radio size={15}/>Live</Link>
             <Link to="/about" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">About</Link>
             <Link to="/contact" className="text-amber-900 dark:text-zinc-200 hover:text-orange-600 dark:hover:text-orange-400 font-medium">Contact</Link>
             <Link to="/admin" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 font-bold ml-2">Admin Panel</Link>
@@ -94,6 +95,7 @@ export default function Navbar() {
           <div className="px-3 pt-2 pb-3 space-y-1">
             <Link to="/" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Home</Link>
             <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Shop</Link>
+            <Link to="/live" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">🔴 Live</Link>
             <Link to="/about" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">About</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">Contact</Link>
             <Link to="/account" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-900 dark:text-zinc-100 hover:bg-amber-100 dark:hover:bg-zinc-800 rounded-md">My Account</Link>
