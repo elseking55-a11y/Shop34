@@ -1,0 +1,52 @@
+--- src/pages/Checkout.tsx
++++ src/pages/Checkout.tsx
+@@ -13,7 +13,7 @@
+   const [email, setEmail] = useState('');
+   const [address, setAddress] = useState('');
+ 
+-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card' | 'crypto'>('mpesa');
++  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'airtel' | 'card' | 'crypto'>('mpesa');
+   const [deliveryMethod, setDeliveryMethod] = useState<'email' | 'whatsapp'>('email');
+   const [whatsappNumber, setWhatsappNumber] = useState('');
+ 
+@@ -23,7 +23,20 @@
+   const handleSubmit = (e: React.FormEvent) => {
+     e.preventDefault();
+     setIsProcessing(true);
+     
+-    // Simulate payment processing
++    // API Integration Routing Logic (Conceptual)
++    if (['mpesa', 'airtel', 'card'].includes(paymentMethod)) {
++        // Route to Paystack API using VITE_PAYSTACK_PUBLIC_KEY
++        console.log("Processing via Paystack API (M-Pesa / Airtel Money / Card)...");
++    } else if (paymentMethod === 'crypto') {
++        // Route to Binance API using VITE_BINANCE_API_KEY
++        console.log("Processing via Binance API (Crypto)...");
++    }
++
++    // Simulate API delay
+     setTimeout(() => {
+       placeOrder({
+@@ -176,14 +189,31 @@
+                   </label>
+ 
+-                  {/* Credit Card (Paystack/Stripe placeholder) */}
++                  {/* Airtel Money (Paystack) */}
++                  <label className={`block p-4 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'airtel' ? 'border-orange-500 bg-orange-50' : 'border-amber-900/10 hover:border-amber-900/30'}`}>
++                    <div className="flex items-center gap-4">
++                      <input type="radio" name="payment" value="airtel" checked={paymentMethod === 'airtel'} onChange={() => setPaymentMethod('airtel')} className="w-5 h-5 text-orange-600 focus:ring-orange-500" />
++                      <div className="flex-1 flex justify-between items-center">
++                        <span className="font-bold text-amber-950">Airtel Money</span>
++                        <Smartphone className="text-red-600" />
++                      </div>
++                    </div>
++                    {paymentMethod === 'airtel' && (
++                      <div className="mt-4 pl-9">
++                        <input type="text" placeholder="Phone Number (e.g., 0733 123 456)" className="w-full px-4 py-3 rounded-xl border border-amber-900/20 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/50" />
++                      </div>
++                    )}
++                  </label>
++
++                  {/* Credit Card (Paystack placeholder) */}
+                   <label className={`block p-4 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-orange-500 bg-orange-50' : 'border-amber-900/10 hover:border-amber-900/30'}`}>
+                     <div className="flex items-center gap-4">

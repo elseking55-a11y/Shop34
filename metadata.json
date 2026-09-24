@@ -1,0 +1,6 @@
+{
+  "name": "AlgoTrade",
+  "description": "Advanced trading bots and authentic goods.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

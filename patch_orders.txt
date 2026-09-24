@@ -1,0 +1,31 @@
+--- src/pages/admin/Orders.tsx
++++ src/pages/admin/Orders.tsx
+@@ -2,7 +2,7 @@
+ import { useStore } from '../../store';
+ import { Order } from '../../types';
+-import { Trash2 } from 'lucide-react';
++import { Trash2, MessageCircle, Mail } from 'lucide-react';
+ 
+ export default function AdminOrders() {
+   const { orders, updateOrderStatus, deleteOrder } = useStore();
+@@ -32,10 +32,18 @@
+                   <td className="p-4">
+                     <div className="font-medium text-amber-950">{order.customerName}</div>
+                     <div className="text-xs text-amber-900/60">{order.email}</div>
+-                    {order.deliveryMethod === 'whatsapp' && order.whatsappNumber && (
+-                      <div className="text-xs font-bold text-green-600 mt-1 flex items-center gap-1">
+-                        WhatsApp: {order.whatsappNumber}
+-                      </div>
++                    {order.deliveryMethod === 'whatsapp' ? (
++                      <div className="mt-2 flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 w-fit px-2 py-1 rounded-md border border-green-200">
++                        <MessageCircle size={14} /> 
++                        WhatsApp: {order.whatsappNumber}
++                      </div>
++                    ) : (
++                      <div className="mt-2 flex items-center gap-1.5 text-xs font-bold text-orange-600 bg-orange-50 w-fit px-2 py-1 rounded-md border border-orange-200">
++                        <Mail size={14} /> 
++                        Email Delivery
++                      </div>
+                     )}
+                   </td>
+                   <td className="p-4 font-bold text-amber-950">${order.total.toFixed(2)}</td>
