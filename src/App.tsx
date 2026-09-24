@@ -31,6 +31,7 @@ import PaymentCallback from './pages/PaymentCallback';
 
 export default function App() {
   const theme = useStore(state => state.theme);
+  const loadProducts = useStore(state => state.loadProducts);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -39,6 +40,8 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => { loadProducts().catch(() => {}); }, [loadProducts]);
 
   return (
     <Router>
