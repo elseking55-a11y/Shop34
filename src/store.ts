@@ -91,8 +91,8 @@ interface StoreState {
 const defaultSiteSettings: SiteSettings = {
   // General & Branding
   siteName: 'East Africa Store',
-  tagline: 'Authentic Forex Bots, Premium Signals & Market Tools',
-  announcementText: '⚡ Limited Offer: Use code LIVE30 for 30% discount on all Forex EAs! Free Instant Email Delivery.',
+  tagline: 'Real products. Real orders. Secure payments.',
+  announcementText: '',
   announcementEnabled: true,
 
   // Appearance & Colors
@@ -104,30 +104,30 @@ const defaultSiteSettings: SiteSettings = {
   motionEffectsEnabled: true,
 
   // Hero Section
-  heroBadge: 'DATA-DRIVEN ALGORITHMIC TRADING',
-  heroTitle: 'Automate Your Trading Edge with Verified EAs',
-  heroSubtitle: 'Empowering traders across East Africa and globally with back-tested bots, automated risk managers, and real-time live streams.',
+  heroBadge: 'SHOP ONLINE • SECURE CHECKOUT',
+  heroTitle: 'Shop with confidence',
+  heroSubtitle: 'Browse available products, place a real order, and pay securely through the configured payment gateway.',
   heroCtaText: 'Explore Verified EAs',
   heroCtaLink: '/shop',
-  heroSecondaryCtaText: 'Watch Live Demo',
-  heroSecondaryCtaLink: '/live',
+  heroSecondaryCtaText: '',
+  heroSecondaryCtaLink: '/shop',
   heroImageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200',
 
   // About Us & Mission
-  aboutHeadline: 'Data-Driven Excellence in Algorithmic Trading',
-  aboutSubtitle: 'We started with a simple belief: the retail trading world needs actual, unfiltered truth. No fake gurus, no hidden losses—just math, data, and algorithms.',
+  aboutHeadline: 'A real online store',
+  aboutSubtitle: 'We are building Shop34 around real products, real inventory, real payments and real orders.',
   ourStoryTitle: 'Our Story: Fighting the Influence & Selling Truth',
   ourStoryContent: 'The trading space is saturated with fake gurus, rented supercars, and photoshopped profit screenshots. They sell dreams, while followers suffer the reality of blown accounts. We bypass the industry standard of selling illusions. Instead, we equip traders with rigorously back-tested bots, real-time software, and algorithms that actually work in live markets.',
   ourMission: 'To eliminate fake influencer hype and empower retail traders with transparent, automated algorithmic tools that deliver consistent risk-managed results.',
   ourVision: 'To become the premier algorithmic trading hub in East Africa, democratizing access to high-grade quantitative trading software.',
-  statTradersCount: '1,500+',
-  statAlgorithmsCount: '8',
+  statTradersCount: '0',
+  statAlgorithmsCount: '0',
   value1Title: 'Transparency',
-  value1Text: 'We provide real backtests, live account tracking, and verified results. No hidden metrics.',
+  value1Text: 'Product availability is based on store inventory.',
   value2Title: 'Performance',
-  value2Text: 'Our algorithms are optimized for consistent execution in volatile environments, maximizing risk-adjusted returns.',
+  value2Text: 'Prices and stock are controlled by the store administrator.',
   value3Title: 'Reliability',
-  value3Text: 'Code that works. Our bots are built to run 24/5 on VPS environments with zero downtime.',
+  value3Text: 'Payments are confirmed by the payment provider before an order is marked paid.',
 
   // Support & Contact
   supportEmail: 'support@eastafricastore.com',
