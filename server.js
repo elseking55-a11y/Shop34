@@ -90,6 +90,8 @@ async function initDb() {
       whatsapp_number TEXT
     )
   `);
+
+  await pool.query('ALTER TABLE orders ADD COLUMN IF NOT EXISTS customer_id TEXT');
 }
 
 function mapProduct(p) {
@@ -290,6 +292,25 @@ app.get('/api/customers', requireDb, requireAdmin, async (_req, res) => {
   res.json(rows.map((u) => ({ ...u, role: 'customer' })));
 });
 
+
+app.get('/api/customer/orders', requireDb, async (req, res) => {
+  const token = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+  if (!process.env.JWT_SECRET) return res.status(503).json({ error: 'JWT_SECRET is not configured.' });
+  try {
+    const customer = jwt.verify(token, process.env.JWT_SECRET);
+    if (customer?.role !== 'customer' || !customer?.id) throw new Error('invalid');
+    const { rows } = await pool.query(
+      `SELECT id, customer_name AS "customerName", email, total, status,
+        payment_status AS "paymentStatus", date, items
+        FROM orders WHERE customer_id=$1 ORDER BY date DESC`,
+      [customer.id]
+    );
+    res.json(rows.map(o => ({ ...o, total: Number(o.total) })));
+  } catch {
+    res.status(401).json({ error: 'Customer authentication required.' });
+  }
+});
+
 app.get('/api/orders/lookup', requireDb, async (req, res) => {
   const reference = String(req.query.reference || '').trim();
   const email = String(req.query.email || '').trim().toLowerCase();
@@ -394,8 +415,17 @@ app.post('/api/payments/initialize', requireDb, async (req, res) => {
     phone,
     deliveryMethod,
     whatsappNumber,
+    customerToken,
     items,
   } = req.body || {};
+
+  let customerId = null;
+  if (customerToken && process.env.JWT_SECRET) {
+    try {
+      const customer = jwt.verify(String(customerToken), process.env.JWT_SECRET);
+      if (customer?.role === 'customer' && customer?.id) customerId = customer.id;
+    } catch {}
+  }
 
   if (
     !name ||
@@ -457,13 +487,14 @@ app.post('/api/payments/initialize', requireDb, async (req, res) => {
 
   await pool.query(
     `INSERT INTO orders (
-      id, customer_name, email, address, phone, total,
+      id, customer_id, customer_name, email, address, phone, total,
       status, payment_status, payment_reference, items,
       delivery_method, whatsapp_number
     )
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
     [
       orderId,
+      customerId,
       name,
       email,
       address,
