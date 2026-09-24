@@ -283,6 +283,13 @@ app.delete('/api/products/:id', requireDb, requireAdmin, async (req, res) => {
   res.status(204).end();
 });
 
+app.get('/api/customers', requireDb, requireAdmin, async (_req, res) => {
+  const { rows } = await pool.query(
+    'SELECT id,name,email,created_at AS "joinDate" FROM customers ORDER BY created_at DESC'
+  );
+  res.json(rows.map((u) => ({ ...u, role: 'customer' })));
+});
+
 app.get('/api/orders/lookup', requireDb, async (req, res) => {
   const reference = String(req.query.reference || '').trim();
   const email = String(req.query.email || '').trim().toLowerCase();
