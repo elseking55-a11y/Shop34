@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Package, Truck, CheckCircle2, Clock } from 'lucide-react';
 
@@ -10,6 +10,27 @@ export default function Account(){
   const [order,setOrder]=useState<any>(null);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(false);
+  const [user,setUser]=useState<any>(null);
+  const [myOrders,setMyOrders]=useState<any[]>([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('shop34_customer_token');
+    const saved = localStorage.getItem('shop34_customer_user');
+    if (saved) { try { setUser(JSON.parse(saved)); } catch {} }
+    if (token) {
+      fetch(API_URL + '/api/customer/orders', { headers: { Authorization: 'Bearer ' + token } })
+        .then(async r => { if (r.ok) setMyOrders(await r.json()); })
+        .catch(() => {});
+    }
+  }, []);
+
+  const signOut=()=>{
+    localStorage.removeItem('shop34_customer_token');
+    localStorage.removeItem('shop34_customer_user');
+    window.dispatchEvent(new Event('shop34-auth-changed'));
+    setUser(null);
+    setMyOrders([]);
+  };
 
   const lookup=async(e:React.FormEvent)=>{
     e.preventDefault();setLoading(true);setError('');setOrder(null);
@@ -26,6 +47,14 @@ export default function Account(){
     <div className="max-w-3xl mx-auto px-4">
       <h1 className="font-serif text-4xl font-bold text-amber-950 mb-3">Track Your Order</h1>
       <p className="text-amber-900/70 mb-8">Use the order ID from your payment confirmation and the email used at checkout.</p>
+      {user ? <div className="mb-6 bg-white rounded-3xl border border-amber-900/10 p-5 flex flex-col sm:flex-row justify-between gap-4">
+        <div><p className="text-xs uppercase font-bold text-orange-600">Customer account</p><p className="font-black text-amber-950">{user.name}</p><p className="text-sm text-amber-900/60">{user.email}</p></div>
+        <button onClick={signOut} className="self-start px-4 py-2 rounded-xl border border-amber-900/15 font-bold text-sm">Sign Out</button>
+      </div> : <div className="mb-6 rounded-2xl bg-white border border-amber-900/10 p-4"><span className="text-sm text-amber-900/70">Have an account?</span> <Link to="/auth?mode=signin" className="font-bold text-orange-600">Sign in</Link> or <Link to="/auth?mode=signup" className="font-bold text-orange-600">Sign up</Link> to keep your orders together.</div>}
+      {user && myOrders.length > 0 && <div className="mb-8 bg-white rounded-3xl border border-amber-900/10 p-6">
+        <h2 className="font-bold text-xl text-amber-950 mb-4">My Orders</h2>
+        <div className="space-y-3">{myOrders.map(o => <div key={o.id} className="flex justify-between gap-4 p-3 rounded-xl bg-amber-50"><div><b>{o.id}</b><p className="text-xs text-amber-900/60">{new Date(o.date).toLocaleString()}</p></div><div className="text-right"><b>KES {Number(o.total).toFixed(2)}</b><p className="text-xs font-bold uppercase text-orange-600">{String(o.status).replace(/_/g,' ')}</p></div></div>)}</div>
+      </div>}
 
       <form onSubmit={lookup} className="bg-white rounded-3xl border border-amber-900/10 p-6 shadow-sm">
         <div className="grid sm:grid-cols-2 gap-4">
