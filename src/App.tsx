@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStore } from './store';
 import Navbar from './components/Navbar';
+import AuthBar from './components/AuthBar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -60,6 +61,7 @@ export default function App() {
 
           <Route path="*" element={
             <div className="flex flex-col min-h-screen w-full pb-16 sm:pb-0 bg-white dark:bg-zinc-950 text-amber-900 dark:text-zinc-100 transition-colors duration-200">
+              <AuthBar />
               <Navbar />
               <main className="flex-grow">
                 <Routes>
