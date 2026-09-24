@@ -93,7 +93,7 @@ export default function Cart() {
                     key={item.product.id} 
                     className="flex flex-col sm:flex-row gap-6"
                   >
-                    <Link to={`/product/${item.product.id}`} className="w-full sm:w-32 aspect-square rounded-2xl overflow-hidden bg-amber-50 shrink-0">
+                    <Link to={`/product/KES {item.product.id}`} className="w-full sm:w-32 aspect-square rounded-2xl overflow-hidden bg-amber-50 shrink-0">
                       <img 
                         src={item.product.imageUrl} 
                         alt={item.product.name} 
@@ -107,19 +107,19 @@ export default function Cart() {
                           <div className="text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
                             {item.product.category}
                           </div>
-                          <Link to={`/product/${item.product.id}`}>
+                          <Link to={`/product/KES {item.product.id}`}>
                             <h3 className="font-bold text-lg text-amber-950 hover:text-orange-600 transition-colors leading-tight">
                               {item.product.name}
                             </h3>
                           </Link>
                         </div>
                         <div className="font-bold text-amber-950 text-lg">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          KES {(item.product.price * item.quantity).toFixed(2)}
                         </div>
                       </div>
                       
                       <div className="text-amber-900/70 text-sm mb-4">
-                        ${item.product.price.toFixed(2)} each
+                        KES {item.product.price.toFixed(2)} each
                       </div>
                       
                       <div className="mt-auto flex items-center justify-between">
@@ -163,13 +163,13 @@ export default function Cart() {
               <div className="space-y-4 mb-6 text-sm">
                 <div className="flex justify-between text-amber-900/80">
                   <span>Subtotal</span>
-                  <span className="font-medium text-amber-950">${cartTotal().toFixed(2)}</span>
+                  <span className="font-medium text-amber-950">KES {cartTotal().toFixed(2)}</span>
                 </div>
                 
                 {appliedVoucher && (
                   <div className="flex justify-between text-green-600 font-medium bg-green-50 p-2 rounded-lg -mx-2">
                     <span className="flex items-center gap-1"><Tag size={14} /> Discount ({appliedVoucher.code})</span>
-                    <span>-${getDiscountAmount().toFixed(2)}</span>
+                    <span>-KES {getDiscountAmount().toFixed(2)}</span>
                   </div>
                 )}
               </div>
@@ -207,10 +207,10 @@ export default function Cart() {
                 <div className="flex justify-between items-end">
                   <span className="font-bold text-amber-950">Total</span>
                   <span className="font-serif text-3xl font-bold text-amber-950">
-                    ${getFinalTotal().toFixed(2)}
+                    KES {getFinalTotal().toFixed(2)}
                   </span>
                 </div>
-                <p className="text-xs text-amber-900/50 mt-1 text-right">USD</p>
+                <p className="text-xs text-amber-900/50 mt-1 text-right">KES</p>
               </div>
               
               <Link 
