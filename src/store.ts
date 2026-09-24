@@ -51,6 +51,7 @@ interface StoreState {
   appViews: number;
   siteSettings: SiteSettings;
   updateSiteSettings: (settings: Partial<SiteSettings>) => void;
+  loadSiteSettings: () => Promise<void>;
 
   marketActivities: MarketActivityItem[];
   addMarketActivity: (item: Omit<MarketActivityItem, 'id' | 'timestamp'>) => void;
@@ -211,15 +212,32 @@ export const useStore = create<StoreState>((set, get) => ({
       return defaultSiteSettings;
     }
   })(),
-  updateSiteSettings: (settings) => set((state) => {
-    const updated = { ...state.siteSettings, ...settings };
+  loadSiteSettings: async () => {
     try {
-      localStorage.setItem('siteSettings', JSON.stringify(updated));
-    } catch (e) {
-      console.error(e);
+      const response = await fetch(API_URL + '/api/site-settings');
+      if (!response.ok) return;
+      const remote = await response.json();
+      const merged = { ...defaultSiteSettings, ...remote };
+      localStorage.setItem('siteSettings', JSON.stringify(merged));
+      set({ siteSettings: merged });
+    } catch (error) {
+      console.error('Unable to load site settings:', error);
     }
-    return { siteSettings: updated };
-  }),
+  },
+  updateSiteSettings: (settings) => {
+    const updated = { ...get().siteSettings, ...settings };
+    localStorage.setItem('siteSettings', JSON.stringify(updated));
+    set({ siteSettings: updated });
+    fetch(API_URL + '/api/site-settings', {
+      method: 'PUT',
+      headers: adminHeaders(),
+      body: JSON.stringify(updated),
+    }).then(async response => {
+      if (!response.ok) throw new Error(await response.text());
+    }).catch(error => {
+      console.error('Unable to save site settings:', error);
+    });
+  },
   
   // Mock customer session
   currentUser: null,
