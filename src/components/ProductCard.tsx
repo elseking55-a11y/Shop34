@@ -20,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       transition={{ duration: 0.3 }}
       className="group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-amber-100 dark:border-zinc-800 flex flex-col"
     >
-      <Link to={`/product/${product.id}`} className="relative aspect-[4/5] overflow-hidden bg-amber-50 dark:bg-zinc-800 block">
+      <Link to={`/product/KES {product.id}`} className="relative aspect-[4/5] overflow-hidden bg-amber-50 dark:bg-zinc-800 block">
         <img 
           src={product.imageUrl} 
           alt={product.name}
@@ -53,7 +53,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 e.preventDefault();
                 toggleFavorite(product.id);
               }}
-              className={`flex items-center gap-1 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full transition-all text-[10px] sm:text-xs font-bold ${
+              className={`flex items-center gap-1 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full transition-all text-[10px] sm:text-xs font-bold KES {
                 favorite ? 'text-red-600 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800' : 'text-amber-900/40 dark:text-zinc-500 hover:text-red-500 hover:bg-red-50 border border-transparent'
               }`}
               title={favorite ? "Unlike item" : "Like item"}
@@ -63,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </button>
           </div>
         </div>
-        <Link to={`/product/${product.id}`} className="block flex-1">
+        <Link to={`/product/KES {product.id}`} className="block flex-1">
           <h3 className="font-serif text-sm sm:text-lg font-bold text-amber-950 dark:text-zinc-100 mb-1 sm:mb-2 leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-2">
             {product.name}
           </h3>
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         
         <div className="flex items-center justify-between mt-auto pt-1">
           <div className="font-serif text-base sm:text-xl font-bold text-amber-950 dark:text-amber-400">
-            ${product.price.toFixed(2)}
+            KES {product.price.toFixed(2)}
           </div>
           {product.status !== 'coming_soon' && (
             <button 
