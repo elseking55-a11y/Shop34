@@ -13,6 +13,7 @@ import Account from './pages/Account';
 import Auth from './pages/Auth';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Live from './pages/Live';
 
 import AdminLayout from './pages/admin/Layout';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -35,6 +36,8 @@ export default function App() {
   const loadSiteSettings = useStore(state => state.loadSiteSettings);
   const siteSettings = useStore(state => state.siteSettings);
   const [showSplash, setShowSplash] = useState(true);
+  const accentMap: Record<string, string> = { amber: '#ea580c', emerald: '#059669', sapphire: '#2563eb', crimson: '#dc2626', purple: '#9333ea', gold: '#eab308' };
+  const accent = siteSettings.customAccentColor || accentMap[siteSettings.primaryTheme] || '#ea580c';
 
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
@@ -80,6 +83,7 @@ export default function App() {
                   <Route path="/account" element={<Account />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/live" element={<Live />} />
                   <Route path="/payment/callback" element={<PaymentCallback />} />
                 </Routes>
               </main>
