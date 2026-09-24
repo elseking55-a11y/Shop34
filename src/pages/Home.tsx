@@ -35,7 +35,7 @@ export default function Home() {
             className="max-w-2xl"
           >
             {siteSettings.heroBadge && (
-              <div className="inline-flex items-center gap-2 bg-orange-600/30 text-orange-300 text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-orange-500/30 uppercase tracking-wider mb-5">
+              <div className="inline-flex items-center gap-2 text-orange-200" style={{ backgroundColor: "color-mix(in srgb, var(--shop-accent) 30%, transparent)", borderColor: "color-mix(in srgb, var(--shop-accent) 50%, transparent)" }} text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-orange-500/30 uppercase tracking-wider mb-5">
                 <Cpu size={14} className="text-orange-400" /> {siteSettings.heroBadge}
               </div>
             )}
@@ -48,7 +48,7 @@ export default function Home() {
             <div className="flex items-center gap-4 flex-wrap">
               <Link 
                 to={siteSettings.heroCtaLink || "/shop"} 
-                className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-lg transition-all hover:gap-4 hover:shadow-lg hover:shadow-orange-900/20"
+                className="inline-flex items-center gap-2 text-white" style={{ backgroundColor: "var(--shop-accent)" }} px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-lg transition-all hover:gap-4 hover:shadow-lg hover:shadow-orange-900/20"
               >
                 {siteSettings.heroCtaText || "Explore Verified EAs"} <ArrowRight size={18} />
               </Link>
