@@ -97,15 +97,15 @@ export default function ProductDetail() {
                     <button 
                       key={idx}
                       onClick={() => setActiveMedia({type: 'image', url: img})}
-                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${activeMedia.url === img ? 'border-orange-600' : 'border-transparent hover:border-amber-900/30'}`}
+                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 KES {activeMedia.url === img ? 'border-orange-600' : 'border-transparent hover:border-amber-900/30'}`}
                     >
-                      <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                      <img src={img} alt={`Thumbnail KES {idx}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                   {product.videoUrl && (
                     <button 
                       onClick={() => setActiveMedia({type: 'video', url: product.videoUrl!})}
-                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 bg-black flex items-center justify-center ${activeMedia.type === 'video' ? 'border-orange-600' : 'border-transparent hover:border-amber-900/30'}`}
+                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 bg-black flex items-center justify-center KES {activeMedia.type === 'video' ? 'border-orange-600' : 'border-transparent hover:border-amber-900/30'}`}
                     >
                       <video src={product.videoUrl} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none" />
                       <Play className="text-white relative z-10" size={24} />
@@ -135,7 +135,7 @@ export default function ProductDetail() {
                 <span className="text-amber-900/40">|</span>
                 <button 
                   onClick={() => toggleFavorite(product.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all KES {
                     favorite 
                       ? 'bg-red-50 text-red-600 border border-red-200 shadow-sm' 
                       : 'bg-amber-50 text-amber-900/70 hover:bg-red-50 hover:text-red-500 border border-amber-900/10'
@@ -152,7 +152,7 @@ export default function ProductDetail() {
               </div>
               
               <div className="font-serif text-2xl sm:text-3xl font-bold text-amber-950 mb-4 sm:mb-8">
-                ${product.price.toFixed(2)}
+                KES {product.price.toFixed(2)}
               </div>
               
               <p className="text-sm sm:text-lg text-amber-900/80 mb-6 sm:mb-10 leading-relaxed">
@@ -216,7 +216,7 @@ export default function ProductDetail() {
         <div className="sm:hidden fixed bottom-14 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-900/10 p-3 shadow-lg flex items-center justify-between gap-3">
           <div>
             <div className="text-[10px] text-amber-900/60 font-medium">Price</div>
-            <div className="font-serif font-bold text-amber-950 text-lg">${product.price.toFixed(2)}</div>
+            <div className="font-serif font-bold text-amber-950 text-lg">KES {product.price.toFixed(2)}</div>
           </div>
           <button
             onClick={handleAddToCart}
