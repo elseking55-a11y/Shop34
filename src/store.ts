@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { CartItem, Product, Order, User, ContactMessage, NewsItem, ChatMessage, LiveStream, Voucher, EmailCampaign, LiveSettings, LiveComment, SiteSettings, MarketActivityItem, BinAccessCode } from './types';
-import { products as initialProducts } from './data';
 
 interface StoreState {
   // Theme Toggle
@@ -89,29 +88,6 @@ interface StoreState {
   sendEmailCampaign: (campaign: Omit<EmailCampaign, 'id' | 'sentAt'>) => void;
 }
 
-// Mock Admin Data
-const mockOrders: Order[] = [
-  { id: 'ORD-1007', customerName: 'David Miller', email: 'david@example.com', total: 349.99, status: 'processing', date: '2026-09-15T14:20:00Z', items: 2 },
-  { id: 'ORD-1006', customerName: 'Emma Watson', email: 'emma@example.com', total: 199.50, status: 'pending', date: '2026-09-15T09:45:00Z', items: 1 },
-  { id: 'ORD-1005', customerName: 'Frank Wright', email: 'frank@example.com', total: 420.00, status: 'shipped', date: '2026-09-14T16:10:00Z', items: 3 },
-  { id: 'ORD-1004', customerName: 'Grace Lee', email: 'grace@example.com', total: 275.00, status: 'delivered', date: '2026-09-13T11:00:00Z', items: 2 },
-  { id: 'ORD-1001', customerName: 'Alice Smith', email: 'alice@example.com', total: 125.50, status: 'delivered', date: '2026-09-12T10:00:00Z', items: 3 },
-  { id: 'ORD-1002', customerName: 'Bob Jones', email: 'bob@example.com', total: 310.00, status: 'shipped', date: '2026-09-11T14:30:00Z', items: 2 },
-  { id: 'ORD-1003', customerName: 'Carol White', email: 'carol@example.com', total: 189.99, status: 'delivered', date: '2026-09-10T09:15:00Z', items: 1 },
-  { id: 'ORD-1000', customerName: 'Henry Ford', email: 'henry@example.com', total: 240.00, status: 'delivered', date: '2026-09-09T18:00:00Z', items: 2 },
-];
-
-const mockUsers: User[] = [
-  { id: 'u1', name: 'Alice Smith', email: 'alice@example.com', role: 'customer', joinDate: '2026-08-01' },
-  { id: 'u2', name: 'Bob Jones', email: 'bob@example.com', role: 'customer', joinDate: '2026-08-15' },
-  { id: 'admin1', name: 'Store Admin', email: 'admin@eastafricastore.com', role: 'admin', joinDate: '2026-01-01' }
-];
-
-const mockMessages: ContactMessage[] = [
-  { id: 'msg1', name: 'Charlie', email: 'charlie@test.com', subject: 'Wholesale', message: 'Do you offer bulk discounts on Coffee?', date: '2026-09-13T08:00:00Z', read: false },
-  { id: 'msg2', name: 'Diana', email: 'diana@test.com', subject: 'Order Status', message: 'When will my package arrive?', date: '2026-09-12T16:45:00Z', read: true }
-];
-
 const defaultSiteSettings: SiteSettings = {
   // General & Branding
   siteName: 'East Africa Store',
@@ -160,111 +136,6 @@ const defaultSiteSettings: SiteSettings = {
   workingHours: 'Mon - Fri: 8:00 AM - 6:00 PM (EAT)'
 };
 
-const defaultBinAccessCodes: BinAccessCode[] = [
-  {
-    id: 'bac-1',
-    code: 'BIN-PRO-100',
-    price: 100,
-    maxGenerations: 500,
-    durationHours: 24,
-    createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-    isUsed: false,
-    generationsLeft: 500
-  },
-  {
-    id: 'bac-2',
-    code: 'VIP-FREE-PASS',
-    price: 0,
-    maxGenerations: 100,
-    durationHours: 72,
-    createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString(),
-    isUsed: false,
-    generationsLeft: 100
-  }
-];
-
-const defaultMarketActivities: MarketActivityItem[] = [
-  {
-    id: 'act-1',
-    category: 'crypto',
-    title: 'BTC/USD Volatility EA',
-    subtitle: 'Algorithmic Long Order Executed @ $68,420.00 | Take Profit $69,800.00',
-    value: '+$640.00',
-    status: 'profit',
-    timestamp: 'Just now',
-    author: 'Deriv AutoBot v4.2',
-    isApproved: true
-  },
-  {
-    id: 'act-2',
-    category: 'forex',
-    title: 'XAU/USD Gold Scalper EA',
-    subtitle: 'Buy Limit Triggered @ $2,650.40 | Target $2,675.00 | Risk 1:3',
-    value: '+28 Pips',
-    status: 'profit',
-    timestamp: '3 mins ago',
-    author: 'Gold Scalper EA',
-    isApproved: true
-  },
-  {
-    id: 'act-3',
-    category: 'announcement',
-    title: '⚡ Flash Discount Alert!',
-    subtitle: 'Use code LIVE30 during today live stream to unlock 30% off all Forex & Deriv Bots!',
-    value: '30% OFF',
-    status: 'alert',
-    timestamp: '8 mins ago',
-    author: 'East Africa Store Admin',
-    isApproved: true
-  },
-  {
-    id: 'act-4',
-    category: 'crypto',
-    title: 'ETH/USD Grid Scalper',
-    subtitle: 'Closed Position with +4.2% Gain | 10x Leverage | Execution 0.12s',
-    value: '+$310.20',
-    status: 'profit',
-    timestamp: '12 mins ago',
-    author: 'Crypto Grid Bot',
-    isApproved: true
-  },
-  {
-    id: 'act-5',
-    category: 'forex',
-    title: 'EUR/USD Asian Session Bot',
-    subtitle: 'Position Auto-Closed @ +18 Pips | Zero Slippage Execution',
-    value: '+18 Pips',
-    status: 'info',
-    timestamp: '18 mins ago',
-    author: 'Asian Session EA',
-    isApproved: true
-  },
-  {
-    id: 'act-6',
-    category: 'announcement',
-    title: '🎉 Trader Milestone Reached',
-    subtitle: 'VIP Trader Sam from Nairobi surpassed $10,000 profit milestone using Volatility 75 EA!',
-    value: '$10,000+',
-    status: 'info',
-    timestamp: '25 mins ago',
-    author: 'Community Leaderboard',
-    isApproved: true
-  },
-  {
-    id: 'act-7',
-    category: 'announcement',
-    title: 'Unverified Community Post',
-    subtitle: 'User post claiming 1000% daily gains without backtest proof. Awaiting admin review.',
-    value: 'Pending Review',
-    status: 'alert',
-    timestamp: 'Just now',
-    author: 'Trader Alex',
-    isApproved: false
-  }
-];
-
 export const useStore = create<StoreState>((set, get) => ({
   theme: (typeof window !== 'undefined' && localStorage.getItem('theme') as 'light' | 'dark') || 'light',
   toggleTheme: () => {
@@ -283,45 +154,29 @@ export const useStore = create<StoreState>((set, get) => ({
   },
 
   cart: [],
-  products: initialProducts.map(p => ({ ...p, status: 'available' as const })),
-  orders: mockOrders,
-  users: mockUsers,
-  messages: mockMessages,
-  news: [
-    { id: 'n1', title: 'Holiday Special!', content: 'Enjoy our new holiday offers on all coffee products.', date: new Date().toISOString() }
-  ],
-  chatMessages: [
-    { id: 'c1', sender: 'agent', text: 'Hello! How can I help you today?', timestamp: new Date().toISOString() }
-  ],
+  products: [],
+  orders: [],
+  users: [],
+  messages: [],
+  news: [],
+  chatMessages: [],
   offersTitle: 'Special Offers',
-  liveStreams: [
-    { id: 'live-1', broadcasterId: 'admin1', broadcasterName: 'AlgoTrade Official', title: 'Live Q&A: Deriv Bot Strategy Demo', description: 'Watch us back-test automated trading bots live and ask questions in real-time!', isActive: true, viewers: 142, startedAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(), accessType: 'free' },
-    { id: 'live-2', broadcasterId: 'u2', broadcasterName: 'Forex Mastery Kenya', title: 'VIP Scalping & Live Trade Signals', description: 'Exclusive live scalping masterclass demonstrating high probability entries and risk management.', isActive: true, viewers: 88, startedAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(), accessType: 'paid', price: 5.00 },
-    { id: 'live-3', broadcasterId: 'u3', broadcasterName: 'Nairobi Trading Hub', title: 'Automated Bot Setup & Config Walkthrough', description: 'Step-by-step setup walkthrough for beginners using automated trading software.', isActive: true, viewers: 204, startedAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(), accessType: 'free' }
-  ],
-  liveComments: [
-    { id: 'lc-1', streamId: 'live-1', userName: 'John Trader', text: 'Does this Deriv bot work on Volatility 100 index?', timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
-    { id: 'lc-2', streamId: 'live-1', userName: 'Sarah FX', text: 'Yes! It works great on V100 and V75.', timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString() },
-    { id: 'lc-3', streamId: 'live-1', userName: 'AlgoTrade Official', text: 'Welcome everyone! Drop your questions in the chat.', timestamp: new Date(Date.now() - 1000 * 60 * 1).toISOString() }
-  ],
+  liveStreams: [],
+  liveComments: [],
   addLiveComment: (comment) => set((state) => ({
     liveComments: [...state.liveComments, { ...comment, id: `lc-${Date.now()}`, timestamp: new Date().toISOString() }]
   })),
-  vouchers: [
-    { id: 'v1', code: 'WELCOME10', discountType: 'percentage', discountValue: 10, expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(), isActive: true },
-    { id: 'v2', code: 'LIVE30', discountType: 'percentage', discountValue: 30, expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(), isActive: true },
-    { id: 'v3', code: 'PROMO15', discountType: 'fixed', discountValue: 15, expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(), isActive: true }
-  ],
+  vouchers: [],
   appliedVoucher: null,
   emailCampaigns: [],
   liveSettings: {
-    isEnabled: true,
+    isEnabled: false,
     scheduleEnabled: false,
     scheduleDays: [1, 2, 3, 4, 5],
     startTime: '09:00',
     endTime: '17:00'
   },
-  appViews: 128500,
+  appViews: 0,
   siteSettings: (() => {
     try {
       const saved = localStorage.getItem('siteSettings');
@@ -341,8 +196,8 @@ export const useStore = create<StoreState>((set, get) => ({
   }),
   
   // Mock customer session
-  currentUser: mockUsers[0],
-  favorites: ['p-1', 'p-4'], // some mock favorites
+  currentUser: null,
+  favorites: [],
   
   toggleFavorite: (productId) => set((state) => {
     const isFav = state.favorites.includes(productId);
