@@ -27,9 +27,7 @@ import AdminBinUnlockCodes from './pages/admin/BinUnlockCodes';
 import LiveChat from './components/LiveChat';
 import MobileBottomNav from './components/MobileBottomNav';
 import Toast from './components/Toast';
-import Live from './pages/Live';
-import Broadcast from './pages/Broadcast';
-import BinGenerator from './pages/BinGenerator';
+import PaymentCallback from './pages/PaymentCallback';
 
 export default function App() {
   const theme = useStore(state => state.theme);
@@ -75,9 +73,7 @@ export default function App() {
                   <Route path="/account" element={<Account />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/live" element={<Live />} />
-                  <Route path="/broadcast" element={<Broadcast />} />
-                  <Route path="/bin-generator" element={<BinGenerator />} />
+                  <Route path="/payment/callback" element={<PaymentCallback />} />
                 </Routes>
               </main>
               <Footer />
