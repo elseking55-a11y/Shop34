@@ -1,4 +1,4 @@
-import { useEffect, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStore } from './store';
 import Navbar from './components/Navbar';
@@ -34,6 +34,7 @@ export default function App() {
   const loadProducts = useStore(state => state.loadProducts);
   const loadSiteSettings = useStore(state => state.loadSiteSettings);
   const siteSettings = useStore(state => state.siteSettings);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
@@ -43,6 +44,8 @@ export default function App() {
   useEffect(() => {
     loadProducts().catch(() => {});
     loadSiteSettings().catch(() => {});
+    const timer = window.setTimeout(() => setShowSplash(false), siteSettings.motionEffectsEnabled ? 900 : 300);
+    return () => window.clearTimeout(timer);
   }, [loadProducts]);
 
   return (
