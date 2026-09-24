@@ -389,9 +389,9 @@ export const useStore = create<StoreState>((set, get) => ({
   marketActivities: (() => {
     try {
       const saved = typeof window !== 'undefined' ? localStorage.getItem('marketActivities') : null;
-      return saved ? JSON.parse(saved) : defaultMarketActivities;
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return defaultMarketActivities;
+      return [];
     }
   })(),
   addMarketActivity: (itemData) => set((state) => {
@@ -431,9 +431,9 @@ export const useStore = create<StoreState>((set, get) => ({
   binAccessCodes: (() => {
     try {
       const saved = typeof window !== 'undefined' ? localStorage.getItem('binAccessCodes') : null;
-      return saved ? JSON.parse(saved) : defaultBinAccessCodes;
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return defaultBinAccessCodes;
+      return [];
     }
   })(),
   activeBinAccess: (() => {
