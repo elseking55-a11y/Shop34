@@ -9,9 +9,9 @@ export default function AdminLayout() {
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
-  const { adminToken, loginAdmin, logoutAdmin, loadProducts, loadOrders } = useStore();
+  const { adminToken, loginAdmin, logoutAdmin, loadProducts, loadOrders, loadUsers } = useStore();
 
-  useEffect(()=>{ if(adminToken){ loadProducts(); loadOrders(); } },[adminToken,loadProducts,loadOrders]);
+  useEffect(()=>{ if(adminToken){ loadProducts(); loadOrders(); loadUsers(); } },[adminToken,loadProducts,loadOrders]);
 
   if(!adminToken) return <div className="min-h-screen bg-amber-50 flex items-center justify-center p-5">
     <form onSubmit={async e=>{e.preventDefault();setError('');const ok=await loginAdmin(email,password);if(!ok)setError('Invalid admin credentials or backend is not configured.');}} className="bg-white rounded-3xl shadow-xl border border-amber-900/10 p-8 w-full max-w-md">
