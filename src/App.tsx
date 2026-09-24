@@ -23,7 +23,6 @@ import AdminNews from './pages/admin/News';
 import AdminVouchers from './pages/admin/Vouchers';
 import AdminEmails from './pages/admin/EmailUsers';
 import AdminSiteSettings from './pages/admin/SiteSettings';
-import AdminBinUnlockCodes from './pages/admin/BinUnlockCodes';
 import LiveChat from './components/LiveChat';
 import MobileBottomNav from './components/MobileBottomNav';
 import Toast from './components/Toast';
@@ -57,7 +56,6 @@ export default function App() {
             <Route path="users" element={<AdminUsers />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="vouchers" element={<AdminVouchers />} />
-            <Route path="bin-codes" element={<AdminBinUnlockCodes />} />
             <Route path="emails" element={<AdminEmails />} />
             <Route path="settings" element={<AdminSiteSettings />} />
           </Route>
