@@ -117,6 +117,15 @@ function mapProduct(p) {
     featured:p.featured,status:p.status,stock:p.stock,offerLabel:p.offer_label };
 }
 
+app.get('/api/orders/lookup', requireDb, async (req,res) => {
+  const reference = String(req.query.reference || '').trim();
+  const email = String(req.query.email || '').trim().toLowerCase();
+  if (!reference || !email) return res.status(400).json({ error:'Order ID and email are required.' });
+  const { rows } = await pool.query('SELECT id,customer_name AS "customerName",email,total,status,payment_status AS "paymentStatus",date,items FROM orders WHERE id=$1 AND LOWER(email)=LOWER($2)',[reference,email]);
+  if (!rows[0]) return res.status(404).json({ error:'Order not found for that email.' });
+  res.json({ ...rows[0], total:Number(rows[0].total) });
+});
+
 app.get('/api/orders', requireDb, requireAdmin, async (_req, res) => {
   const { rows } = await pool.query('SELECT id,customer_name AS "customerName",email,total,status,payment_status AS "paymentStatus",' +
     'payment_reference AS "paymentReference",date,items,delivery_method AS "deliveryMethod",whatsapp_number AS "whatsappNumber" FROM orders ORDER BY date DESC');
