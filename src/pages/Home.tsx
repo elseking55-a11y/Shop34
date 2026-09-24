@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag, Truck, ShieldCheck, Activity, Cpu, Zap, Tag, Megaphone, Eye, Radio } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import LiveMarketActivity from '../components/LiveMarketActivity';
 import { useStore } from '../store';
 import { motion } from 'motion/react';
 
 export default function Home() {
   const products = useStore(state => state.products);
   const rawNews = useStore(state => state.news);
-  const appViews = useStore(state => state.appViews);
-  const liveStreams = useStore(state => state.liveStreams);
   const siteSettings = useStore(state => state.siteSettings);
-  const activeStreams = liveStreams.filter(s => s.isActive);
 
   const news = rawNews.filter(n => new Date(n.date) <= new Date());
   const offersTitle = useStore(state => state.offersTitle);
@@ -152,13 +148,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Live Market Activity Section with Category Filtering */}
-      <section className="py-16 bg-amber-50/40 dark:bg-zinc-950 border-b border-amber-900/10 dark:border-zinc-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <LiveMarketActivity />
         </div>
       </section>
 
