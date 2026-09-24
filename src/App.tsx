@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type CSSProperties } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStore } from './store';
 import Navbar from './components/Navbar';
@@ -47,7 +47,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 font-sans text-amber-900 dark:text-zinc-100 selection:bg-orange-200 transition-colors duration-200" style={{ "--shop-accent": accent } as React.CSSProperties}>
+      <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 font-sans text-amber-900 dark:text-zinc-100 selection:bg-orange-200 transition-colors duration-200" style={{ "--shop-accent": accent } as CSSProperties}>
         <Toast />
         <Routes>
           <Route path="/admin" element={<AdminLayout />}>
