@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Megaphone, Menu, X, Tag, Mail, Sliders } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Megaphone, Menu, X, Tag, Mail, Sliders, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useStore } from '../../store';
 
@@ -28,6 +28,7 @@ export default function AdminLayout() {
   const navItems=[
     {path:'/admin',icon:LayoutDashboard,label:'Dashboard'},
     {path:'/admin/products',icon:Package,label:'Products'},
+    {path:'/admin/users',icon:Users,label:'Users'},
     {path:'/admin/orders',icon:ShoppingCart,label:'Orders'},
     {path:'/admin/messages',icon:MessageSquare,label:'Messages'},
     {path:'/admin/news',icon:Megaphone,label:'News'},
