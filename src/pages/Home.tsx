@@ -48,7 +48,8 @@ export default function Home() {
             <div className="flex items-center gap-4 flex-wrap">
               <Link 
                 to={siteSettings.heroCtaLink || "/shop"} 
-                className="inline-flex items-center gap-2 text-white" style={{ backgroundColor: "var(--shop-accent)" }} px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-lg transition-all hover:gap-4 hover:shadow-lg hover:shadow-orange-900/20"
+                className="inline-flex items-center gap-2 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-lg transition-all hover:gap-4 hover:shadow-lg hover:shadow-orange-900/20"
+                style={{ backgroundColor: "var(--shop-accent)" }}
               >
                 {siteSettings.heroCtaText || "Explore Verified EAs"} <ArrowRight size={18} />
               </Link>
